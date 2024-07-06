@@ -26,6 +26,14 @@
             <i class="fas fa-fw fa-film" aria-hidden="true"></i>
             <span>{{ __('Movies') }}</span></a>
     </li>
+
+    <hr class="sidebar-divider my-0">
+
+    <li class="nav-item my-o" >
+        <a class="nav-link" href="{{ route('admin.iklans.index') }}">
+            <i class="fas fa-fw fa-ad" aria-hidden="true"></i>
+            <span>{{ __('Iklans') }}</span></a>
+    </li>
     
     <!-- Heading -->
     {{-- <div class="sidebar-heading">
