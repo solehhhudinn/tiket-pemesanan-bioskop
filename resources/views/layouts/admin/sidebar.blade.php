@@ -20,6 +20,12 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.movies.index') }}">
+            <i class="fas fa-fw fa-film" aria-hidden="true"></i>
+            <span>{{ __('Movies') }}</span></a>
+    </li>
     
     <!-- Heading -->
     {{-- <div class="sidebar-heading">
