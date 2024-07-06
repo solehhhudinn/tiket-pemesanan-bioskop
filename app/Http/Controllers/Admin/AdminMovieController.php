@@ -110,4 +110,27 @@ class AdminMovieController extends Controller
 
         return redirect()->route('admin.movies.index')->with('success', 'Movie updated successfully.');
     }
+
+    public function destroy(Movie $movie)
+    {
+        // Delete the poster if it exists
+        if ($movie->poster && Storage::disk('public')->exists($movie->poster)) {
+            Storage::disk('public')->delete($movie->poster);
+        }
+
+        $movie->delete();
+        return redirect()->route('admin.movies.index')->with('success', 'Movie deleted successfully.');
+    }
+
+    public function nowPlaying()
+    {
+        $nowPlayingMovies = Movie::where('status', Movie::STATUS_NOW_PLAYING)->get();
+        return view('now_playing', compact('nowPlayingMovies'));
+    }
+
+    public function upcoming()
+    {
+        $upcomingMovies = Movie::where('status', Movie::STATUS_UPCOMING)->get();
+        return view('upcoming', compact('upcomingMovies'));
+    }
 }
