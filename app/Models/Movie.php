@@ -12,4 +12,7 @@ class Movie extends Model
     protected $guarded = [
         'id'
     ];
+
+    const STATUS_NOW_PLAYING = 1;
+    const STATUS_UPCOMING = 2;
 }
