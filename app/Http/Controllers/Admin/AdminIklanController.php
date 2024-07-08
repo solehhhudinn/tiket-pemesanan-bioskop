@@ -36,4 +36,36 @@ class AdminIklanController extends Controller
 
         return redirect()->route('admin.iklans.index')->with('success', 'Iklan created successfully.');
     }
+
+    
+
+    public function edit(Iklan $iklan)
+    {
+        return view('admin.iklans.edit', compact('iklan'));
+    }
+
+    public function update(Request $request, Iklan $iklan)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'iklan' => 'nullable|image',
+        ]);
+
+        if ($request->hasFile('iklan')) {
+            // Delete the old iklan if it exists
+            if ($iklan->iklan && Storage::disk('public')->exists($iklan->iklan)) {
+                Storage::disk('public')->delete($iklan->iklan);
+            }
+
+            $iklanPath = $request->file('iklan')->store('iklans', 'public');
+            $iklan->iklan = $iklanPath;
+        }
+
+        $iklan->update([
+            'title' => $request->title,
+            'iklan' => $iklan->iklan,
+        ]);
+
+        return redirect()->route('admin.iklans.index')->with('success', 'Iklan updated successfully.');
+    }
 }
