@@ -68,4 +68,13 @@ class AdminIklanController extends Controller
 
         return redirect()->route('admin.iklans.index')->with('success', 'Iklan updated successfully.');
     }
+    public function destroy(Iklan $iklan)
+    {
+        // Delete the iklan file if it exists
+        if ($iklan->iklan && Storage::disk('public')->exists($iklan->iklan)) {
+            Storage::disk('public')->delete($iklan->iklan);
+        }
+
+        $iklan->delete();
+        return redirect()->route('admin.iklans.index')->with('success', 'Iklan deleted successfully.');}
 }
