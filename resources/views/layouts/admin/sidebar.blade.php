@@ -29,6 +29,15 @@
 
     <hr class="sidebar-divider my-0">
 
+    <!-- Nav Item - Theaters -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.theaters.index') }}">
+            <i class="fas fa-fw fa-theater-masks" aria-hidden="true"></i>
+            <span>{{ __('Theaters') }}</span></a>
+    </li>
+
+    <hr class="sidebar-divider my-0">
+
     <li class="nav-item my-o" >
         <a class="nav-link" href="{{ route('admin.iklans.index') }}">
             <i class="fas fa-fw fa-ad" aria-hidden="true"></i>
