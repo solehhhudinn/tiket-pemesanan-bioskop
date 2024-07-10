@@ -9,6 +9,39 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminTheaterController extends Controller
 {
+    public function edit(Theater $theater)
+    {
+        return view('admin.theaters.edit', compact('theater'));
+    }
+
+    public function update(Request $request, Theater $theater)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'price' => 'nullable|string',
+            'image' => 'nullable|image',
+        ]);
+
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($theater->image && Storage::disk('public')->exists($theater->image)) {
+                Storage::disk('public')->delete($theater->image);
+            }
+
+            $imagePath = $request->file('image')->store('theaters', 'public');
+            $theater->image = $imagePath;
+        }
+
+        $theater->update([
+            'name' => $request->name,
+            'location' => $request->location,
+            'price' => $request->price,
+            'image' => $theater->image,
+        ]);
+
+        return redirect()->route('admin.theaters.index')->with('success', 'Theater updated successfully.');
+    }
     public function index()
     {
         $theaters = Theater::all();
