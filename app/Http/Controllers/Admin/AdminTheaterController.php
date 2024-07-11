@@ -78,4 +78,12 @@ class AdminTheaterController extends Controller
 
         return redirect()->route('admin.theaters.index')->with('success', 'Theater created successfully.');
     }
+    public function destroy(Theater $theater)
+    {
+        if ($theater->image && Storage::disk('public')->exists($theater->image)) {
+            Storage::disk('public')->delete($theater->image);
+        }
+
+        $theater->delete();
+        return redirect()->route('admin.theaters.index')->with('success', 'Theater deleted successfully.');}
 }
