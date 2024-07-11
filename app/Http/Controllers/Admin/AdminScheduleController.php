@@ -43,4 +43,33 @@ class AdminScheduleController extends Controller
 
         return redirect()->route('admin.schedules.index')->with('success', 'Schedule created successfully.');
     }
+
+    public function edit(Schedule $schedule)
+    {
+        $movies = Movie::all();
+        $theaters = Theater::all();
+        return view('admin.schedules.edit', compact('schedule', 'movies', 'theaters'));
+    }
+
+    public function update(Request $request, Schedule $schedule)
+    {
+        $request->validate([
+            'movie_id' => 'required|exists:movies,id',
+            'theater_id' => 'required|exists:theaters,id',
+            'date' => 'required|date',
+            'times' => 'required|array',
+            'times.*' => 'required|date_format:H:i',
+        ]);
+
+        $schedule->update([
+            'movie_id' => $request->input('movie_id'),
+            'theater_id' => $request->input('theater_id'),
+            'date' => $request->input('date'),
+            'times' => array_map(function($time) {
+                return ['time' => $time];
+            }, $request->input('times')),
+        ]);
+
+        return redirect()->route('admin.schedules.index')->with('success', 'Schedule updated successfully.');
+    }
 }
