@@ -72,4 +72,10 @@ class AdminScheduleController extends Controller
 
         return redirect()->route('admin.schedules.index')->with('success', 'Schedule updated successfully.');
     }
+
+    public function destroy(Schedule $schedule)
+    {
+        $schedule->delete();
+        return redirect()->route('admin.schedules.index')->with('success', 'Schedule deleted successfully.');
+    }
 }
