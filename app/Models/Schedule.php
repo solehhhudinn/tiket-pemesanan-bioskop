@@ -35,6 +35,11 @@ class Schedule extends Model
         return $this->belongsTo(Theater::class);
     }
 
+    public function seats()
+    {
+        return $this->hasMany(Seat::class);
+    }
+
     public function availableSeats()
     {
         return $this->seats()->where('is_available', true)->count();

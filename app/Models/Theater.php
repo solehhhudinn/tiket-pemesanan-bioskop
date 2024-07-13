@@ -12,4 +12,14 @@ class Theater extends Model
     protected $guarded = [
         'id'
     ];
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
+    public function seats()
+    {
+        return $this->hasMany(Seat::class);
+    }
 }
