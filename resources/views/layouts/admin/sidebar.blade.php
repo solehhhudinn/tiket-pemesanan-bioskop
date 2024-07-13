@@ -45,11 +45,22 @@
 
     <hr class="sidebar-divider my-0">
 
+     <!-- Nav Item - Schedule -->
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.schedules.index') }}">
             <i class="fas fa-fw fa-theater-masks" aria-hidden="true"></i>
             <span>{{ __('Schedules') }}</span></a>
     </li>
+
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Seat -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.seats.index') }}">
+            <i class="fas fa-fw fa-chair" aria-hidden="true"></i>
+            <span>{{ __('Seats') }}</span>
+        </a>
+    </li>
 
     <hr class="sidebar-divider my-0">
 
