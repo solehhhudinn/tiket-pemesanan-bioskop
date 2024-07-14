@@ -14,5 +14,24 @@ class AdminSeatController extends Controller
     {
         $seats = Seat::with('schedule.theater')->get();
         return view('admin.seats.index', compact('seats'));
+    }public function create()
+    {
+        $theaters = Theater::all();
+        return view('admin.seats.create', compact('theaters'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'theater_id' => 'required|exists:theaters,id',
+            'seat_number' => 'required|string|max:255',
+            'type' => 'required|in:regular,sweetbox',
+            'is_available' => 'boolean'
+        ]);
+    
+        $seatData = $request->only('theater_id', 'seat_number', 'type', 'is_available');
+        Seat::create($seatData);
+    
+        return redirect()->route('admin.seats.index')->with('success', 'Seat created successfully.');
     }
  }
