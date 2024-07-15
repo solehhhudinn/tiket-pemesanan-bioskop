@@ -10,6 +10,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TheaterController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,7 @@ Route::middleware('web')->group(function () {
     Route::get('/', [MovieController::class, 'index'])->name('home');
     Route::get('/now-playing', [MovieController::class, 'nowPlaying'])->name('movies.nowPlaying');
     Route::get('/upcoming', [MovieController::class, 'upcoming'])->name('movies.upcoming');
+    Route::get('/theaters', [TheaterController::class, 'index'])->name('theaters.index');
     Route::get('/movies/{movie}', [MovieController::class, 'show'])->name('movies.show');
     Route::get('/movies/{movie}/trailer', [MovieController::class, 'trailer'])->name('movies.trailer');
     Route::get('/movies/{movie}/tickets', [TicketController::class, 'index'])->name('movies.tickets');
