@@ -28,12 +28,13 @@
     </li>
 
     <hr class="sidebar-divider my-0">
-    
+
     <li class="nav-item my-o" >
         <a class="nav-link" href="{{ route('admin.iklans.index') }}">
             <i class="fas fa-fw fa-ad" aria-hidden="true"></i>
             <span>{{ __('Iklans') }}</span></a>
     </li>
+    
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Theaters -->
@@ -41,16 +42,16 @@
         <a class="nav-link" href="{{ route('admin.theaters.index') }}">
             <i class="fas fa-fw fa-theater-masks" aria-hidden="true"></i>
             <span>{{ __('Theaters') }}</span></a>
-    </li>
+    </li>
 
     <hr class="sidebar-divider my-0">
 
-     <!-- Nav Item - Schedule -->
+    <!-- Nav Item - Schedule -->
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.schedules.index') }}">
-            <i class="fas fa-fw fa-theater-masks" aria-hidden="true"></i>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i>
             <span>{{ __('Schedules') }}</span></a>
-    </li>
+    </li>
 
     <hr class="sidebar-divider my-0">
 
@@ -64,7 +65,13 @@
 
     <hr class="sidebar-divider my-0">
 
-    
+    <!-- Nav Item - Payment -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.payments.index') }}">
+            <i class="fas fa-fw fa-credit-card" aria-hidden="true"></i>
+            <span>{{ __('Payments') }}</span>
+        </a>
+    </li>
     <!-- Heading -->
     {{-- <div class="sidebar-heading">
         Interface
