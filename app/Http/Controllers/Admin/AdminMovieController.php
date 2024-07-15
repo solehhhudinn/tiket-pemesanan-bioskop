@@ -9,10 +9,28 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminMovieController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $movies = Movie::all();
-        return view('admin.movies.index', compact('movies'));
+        $perPage = $request->get('per_page', 5); // Default to 5 items per page
+        $search = $request->get('search'); // Get search query
+
+        $query = Movie::query();
+
+        if ($search) {
+            $query->where('title', 'LIKE', "%{$search}%")
+                ->orWhere('description', 'LIKE', "%{$search}%")
+                ->orWhere('director', 'LIKE', "%{$search}%")
+                ->orWhere('starring', 'LIKE', "%{$search}%")
+                ->orWhere('censor_rating', 'LIKE', "%{$search}%")
+                ->orWhere('genre', 'LIKE', "%{$search}%")
+                ->orWhere('languange', 'LIKE', "%{$search}%")
+                ->orWhere('subtitle', 'LIKE', "%{$search}%")
+                ->orWhere('duration', 'LIKE', "%{$search}%");
+        }
+
+        $movies = $query->paginate($perPage);
+
+        return view('admin.movies.index', compact('movies', 'search', 'perPage'));
     }
 
     public function create()

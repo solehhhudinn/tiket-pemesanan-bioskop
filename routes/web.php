@@ -6,21 +6,26 @@ use App\Http\Controllers\Admin\AdminPaymentController;
 use App\Http\Controllers\Admin\AdminTheaterController;
 use App\Http\Controllers\Admin\AdminScheduleController;
 use App\Http\Controllers\Admin\AdminSeatController;
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware('web')->group(function () {
+    Route::get('/', [MovieController::class, 'index'])->name('home');
+    Route::get('/now-playing', [MovieController::class, 'nowPlaying'])->name('movies.nowPlaying');
+    Route::get('/upcoming', [MovieController::class, 'upcoming'])->name('movies.upcoming');
+    Route::get('/movies/{movie}', [MovieController::class, 'show'])->name('movies.show');
+    Route::get('/movies/{movie}/trailer', [MovieController::class, 'trailer'])->name('movies.trailer');
+    Route::get('/movies/{movie}/tickets', [TicketController::class, 'index'])->name('movies.tickets');
+});
+
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
