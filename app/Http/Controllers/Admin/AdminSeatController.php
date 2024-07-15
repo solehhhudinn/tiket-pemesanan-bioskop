@@ -52,4 +52,8 @@ class AdminSeatController extends Controller
         $seat->update($request->all());
         return redirect()->route('admin.seats.index')->with('success', 'Seat updated successfully.');
     }
+    public function destroy(Seat $seat)
+    {
+        $seat->delete();
+        return redirect()->route('admin.seats.index')->with('success', 'Seat deleted successfully.');}
  }
