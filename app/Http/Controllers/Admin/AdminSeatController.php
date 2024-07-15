@@ -34,4 +34,22 @@ class AdminSeatController extends Controller
     
         return redirect()->route('admin.seats.index')->with('success', 'Seat created successfully.');
     }
+    public function edit(Seat $seat)
+    {
+        $theaters = Theater::all();
+        return view('admin.seats.edit', compact('seat', 'theaters'));
+    }
+
+    public function update(Request $request, Seat $seat)
+    {
+        $request->validate([
+            'theater_id' => 'required|exists:theaters,id',
+            'seat_number' => 'required|string|max:255',
+            'type' => 'required|in:regular,sweetbox',
+            'is_available' => 'boolean'
+        ]);
+
+        $seat->update($request->all());
+        return redirect()->route('admin.seats.index')->with('success', 'Seat updated successfully.');
+    }
  }
