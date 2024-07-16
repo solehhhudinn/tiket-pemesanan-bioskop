@@ -12,7 +12,8 @@ class CreateSchedulesTable extends Migration
             $table->id();
             $table->foreignId('movie_id')->constrained()->onDelete('cascade');
             $table->foreignId('theater_id')->constrained()->onDelete('cascade');
-            $table->date('date');
+            $table->date('start_date');  // start date of the schedule
+            $table->date('end_date');    // end date of the schedule
             $table->json('times');
             $table->timestamps();
         });

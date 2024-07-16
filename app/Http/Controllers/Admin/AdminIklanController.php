@@ -9,10 +9,21 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminIklanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $iklans = Iklan::all();
-        return view('admin.iklans.index', compact('iklans'));
+
+        $perPage = $request->get('per_page', 5); // Default to 5 items per page
+        $search = $request->get('search'); // Get search query
+
+        $query = Iklan::query();
+
+        if ($search) {
+            $query->where('title', 'LIKE', "%{$search}%");
+        }
+
+        $iklans = $query->paginate($perPage);
+
+        return view('admin.iklans.index', compact('iklans', 'search', 'perPage'));
     }
 
     public function create()
@@ -37,7 +48,10 @@ class AdminIklanController extends Controller
         return redirect()->route('admin.iklans.index')->with('success', 'Iklan created successfully.');
     }
 
-    
+    public function show(Iklan $iklan)
+    {
+        return view('admin.iklans.show', compact('iklan'));
+    }
 
     public function edit(Iklan $iklan)
     {
@@ -68,6 +82,7 @@ class AdminIklanController extends Controller
 
         return redirect()->route('admin.iklans.index')->with('success', 'Iklan updated successfully.');
     }
+
     public function destroy(Iklan $iklan)
     {
         // Delete the iklan file if it exists
@@ -76,5 +91,6 @@ class AdminIklanController extends Controller
         }
 
         $iklan->delete();
-        return redirect()->route('admin.iklans.index')->with('success', 'Iklan deleted successfully.');}
+        return redirect()->route('admin.iklans.index')->with('success', 'Iklan deleted successfully.');
+    }
 }
