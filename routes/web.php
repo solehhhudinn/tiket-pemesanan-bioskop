@@ -6,12 +6,13 @@ use App\Http\Controllers\Admin\AdminPaymentController;
 use App\Http\Controllers\Admin\AdminTheaterController;
 use App\Http\Controllers\Admin\AdminScheduleController;
 use App\Http\Controllers\Admin\AdminSeatController;
-use App\Http\Controllers\MovieController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\TheaterController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\SeatController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,8 @@ Route::middleware('web')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/tickets/{id}/seatSelection', [TicketController::class, 'seatSelection'])->name('tickets.seatSelection');
+    Route::get('/api/schedules/{scheduleId}/seats', [SeatController::class, 'getSeats']);
+    Route::post('/payment', [PaymentController::class, 'index'])->name('payment');
 });
 
 

@@ -10,11 +10,37 @@ use Illuminate\Http\Request;
 
 class AdminSeatController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $seats = Seat::with('schedule.theater')->get();
-        return view('admin.seats.index', compact('seats'));
-    }public function create()
+        $perPage = $request->get('per_page', 5); // Default to 5 items per page
+        $search = $request->get('search'); // Get search query
+    
+        $query = Seat::query()->with('schedule.theater');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('schedule.theater', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%");
+                })
+                ->orWhere('seat_number', 'LIKE', "%{$search}%")
+                ->orWhere('type', 'LIKE', "%{$search}%");
+
+                // Pencarian berdasarkan status is_available
+                if (strtolower($search) === 'sudah di isi') {
+                    $q->orWhere('is_available', 0);
+                } elseif (strtolower($search) === 'belum di isi') {
+                    $q->orWhere('is_available', 1);
+                }
+            });
+        }
+
+        
+        $seats = $query->paginate($perPage);
+    
+        return view('admin.seats.index', compact('seats', 'search', 'perPage'));
+    }
+
+    public function create()
     {
         $theaters = Theater::all();
         return view('admin.seats.create', compact('theaters'));
@@ -34,6 +60,7 @@ class AdminSeatController extends Controller
     
         return redirect()->route('admin.seats.index')->with('success', 'Seat created successfully.');
     }
+
     public function edit(Seat $seat)
     {
         $theaters = Theater::all();
@@ -52,8 +79,10 @@ class AdminSeatController extends Controller
         $seat->update($request->all());
         return redirect()->route('admin.seats.index')->with('success', 'Seat updated successfully.');
     }
+
     public function destroy(Seat $seat)
     {
         $seat->delete();
-        return redirect()->route('admin.seats.index')->with('success', 'Seat deleted successfully.');}
- }
+        return redirect()->route('admin.seats.index')->with('success', 'Seat deleted successfully.');
+    }
+}
