@@ -6,6 +6,30 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Daftar Pembayaran</h2>
     <hr>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <form action="{{ route('admin.payments.index') }}" method="GET">
+                <div class="input-group">
+                    <label class="input-group-text" for="per_page">{{ __('Show') }}</label>
+                    <select class="form-select" id="per_page" name="per_page" onchange="this.form.submit()">
+                        <option value="5"{{ request('per_page') == 5 ? ' selected' : '' }}>5</option>
+                        <option value="10"{{ request('per_page') == 10 ? ' selected' : '' }}>10</option>
+                        <option value="25"{{ request('per_page') == 25 ? ' selected' : '' }}>25</option>
+                        <option value="50"{{ request('per_page') == 50 ? ' selected' : '' }}>50</option>
+                        <option value="100"{{ request('per_page') == 100 ? ' selected' : '' }}>100</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <form action="{{ route('admin.payments.index') }}" method="GET">
+                <div class="input-group mb-3">
+                    <input type="text" name="search" class="form-control" placeholder="Search payments" value="{{ request('search') }}">
+                    <button class="btn btn-outline-secondary" type="submit">{{ __('Search') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -77,7 +101,7 @@
                                                 <h5 class="modal-title" id="paymentProofModalLabel{{ $payment->id }}">Bukti Pembayaran</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body">
+                                            <div class="modal-body d-flex justify-content-center align-items-center">
                                                 @if ($payment->payment_proof)
                                                     <img src="{{ Storage::url($payment->payment_proof) }}" alt="Bukti Pembayaran" class="img-fluid">
                                                 @else
@@ -100,6 +124,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    <br>
+    <div class="d-flex justify-content-end">
+        {{ $payments->appends(['search' => request('search'), 'per_page' => request('per_page')])->links('vendor.pagination.bootstrap-4') }}
     </div>
 </div>
 @endsection
