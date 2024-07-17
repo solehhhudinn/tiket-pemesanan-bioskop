@@ -86,7 +86,7 @@
                                 </li>
                             @endif
                         @else
-                        {{-- <li class="nav-item dropdown notification-icon">
+                        <li class="nav-item dropdown notification-icon">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-bell-fill"></i>
                                 <span class="badge">{{ Auth::user()->unreadNotifications->count() }}</span>
@@ -104,7 +104,7 @@
                                     <a class="dropdown-item" href="#">No notifications</a>
                                 @endforelse
                             </div>
-                        </li>                                                                            --}}
+                        </li>                                                                           
                         
                             @if(Auth::user()->is_admin)
                                 <li class="nav-item">

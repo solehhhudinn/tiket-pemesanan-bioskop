@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TheaterController;
 use App\Http\Controllers\TicketController;
@@ -50,5 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/payment', [PaymentController::class, 'index'])->name('payment');
     Route::post('/payment/barcode', [PaymentController::class, 'showBarcode'])->name('payment.barcode');
     Route::post('/upload-bukti-pembayaran', [PaymentController::class, 'uploadBuktiPembayaran'])->name('upload.bukti.pembayaran');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('notifications/{id}', [NotificationController::class, 'show'])->name('notifications.show');
+    Route::post('notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 });
 
