@@ -107,8 +107,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxSeats = {{ $quantity }};
     const isSweetboxAllowed = maxSeats > 1;
 
-    function fetchSeats(scheduleId) {
-        fetch(`/api/schedules/${scheduleId}/seats`)
+    function fetchSeats(theaterId) {
+        fetch(`/api/theaters/${theaterId}/seats`)
             .then(response => response.json())
             .then(data => {
                 console.log('Seats and layout fetched:', data);

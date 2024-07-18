@@ -47,7 +47,7 @@ Route::middleware('web')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/tickets/{id}/seatSelection', [TicketController::class, 'seatSelection'])->name('tickets.seatSelection');
-    Route::get('/api/schedules/{scheduleId}/seats', [SeatController::class, 'getSeats']);
+    Route::get('/api/theaters/{theater}/seats', [SeatController::class, 'getSeats']);
     Route::post('/payment', [PaymentController::class, 'index'])->name('payment');
     Route::post('/payment/barcode', [PaymentController::class, 'showBarcode'])->name('payment.barcode');
     Route::post('/upload-bukti-pembayaran', [PaymentController::class, 'uploadBuktiPembayaran'])->name('upload.bukti.pembayaran');

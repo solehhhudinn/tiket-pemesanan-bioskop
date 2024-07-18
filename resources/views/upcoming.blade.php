@@ -20,5 +20,6 @@
             </div>
         @endforeach
     </div>
+    <a href="/" class="btn btn-danger mt-3 d-flex justify-content-center">Kembali</a>
 </div>
 @endsection

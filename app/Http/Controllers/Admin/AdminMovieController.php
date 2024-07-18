@@ -23,7 +23,7 @@ class AdminMovieController extends Controller
                 ->orWhere('starring', 'LIKE', "%{$search}%")
                 ->orWhere('censor_rating', 'LIKE', "%{$search}%")
                 ->orWhere('genre', 'LIKE', "%{$search}%")
-                ->orWhere('languange', 'LIKE', "%{$search}%")
+                ->orWhere('language', 'LIKE', "%{$search}%")
                 ->orWhere('subtitle', 'LIKE', "%{$search}%")
                 ->orWhere('duration', 'LIKE', "%{$search}%");
         }

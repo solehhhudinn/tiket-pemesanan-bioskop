@@ -10,7 +10,7 @@
         <form action="{{ route('theaters.index') }}" method="GET">
             <div class="form-group">
                 <label for="location">Select Location:</label>
-                <select name="location" id="location" class="form-control" onchange="this.form.submit()">
+                <select name="location" id="location" class="form-select" onchange="this.form.submit()">
                     <option value="">All Locations</option>
                     @foreach($locations as $loc)
                         <option value="{{ $loc->location }}" {{ $loc->location == $location ? 'selected' : '' }}>
@@ -35,5 +35,6 @@
             </div>
         @endforeach
     </div>
+    <a href="/" class="btn btn-danger mt-3 d-flex justify-content-center">Kembali</a>
 </div>
 @endsection

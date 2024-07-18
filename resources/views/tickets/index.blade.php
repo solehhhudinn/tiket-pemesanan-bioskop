@@ -58,14 +58,12 @@
 </div>
 
 <!-- Modal Pilih Tiket -->
-<div class="modal fade" id="selectTicketsModal" tabindex="-1" role="dialog" aria-labelledby="selectTicketsModalLabel" aria-hidden="true">
+<div class="modal fade" id="selectTicketsModal" tabindex="-1" aria-labelledby="selectTicketsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="selectTicketsModalLabel">Pilih Tiket</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="{{ route('tickets.seatSelection', ['id' => $theater->id ]) }}" method="GET" id="selectTicketsForm">

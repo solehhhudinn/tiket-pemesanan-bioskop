@@ -32,11 +32,11 @@ class MovieController extends Controller
         return view('upcoming', compact('upcomingMovies'));
     }
 
-    public function show(Movie $movie, $id) 
+    public function show(Movie $movie) 
     {
         // Eager loading untuk jadwal film
         $movie->load(['schedules.theater', 'schedules.times']);
-        $movie = Movie::with('schedules.times')->findOrFail($id);
+        // $movie = Movie::with('schedules.times')->findOrFail($id);
 
         // Ambil semua iklan
         $iklans = Iklan::all();

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Seat;
-use App\Models\Schedule;
 use App\Models\Theater;
 use Illuminate\Http\Request;
 
@@ -15,11 +14,11 @@ class AdminSeatController extends Controller
         $perPage = $request->get('per_page', 5); // Default to 5 items per page
         $search = $request->get('search'); // Get search query
     
-        $query = Seat::query()->with('schedule.theater');
+        $query = Seat::query()->with('theater');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->whereHas('schedule.theater', function ($q) use ($search) {
+                $q->whereHas('theater', function ($q) use ($search) {
                     $q->where('name', 'LIKE', "%{$search}%");
                 })
                 ->orWhere('seat_number', 'LIKE', "%{$search}%")
@@ -34,8 +33,7 @@ class AdminSeatController extends Controller
             });
         }
 
-        
-        $seats = $query->paginate($perPage);
+        $seats = $query->paginate($perPage)->appends(['per_page' => $perPage, 'search' => $search]);
     
         return view('admin.seats.index', compact('seats', 'search', 'perPage'));
     }
@@ -48,13 +46,8 @@ class AdminSeatController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'theater_id' => 'required|exists:theaters,id',
-            'seat_number' => 'required|string|max:255',
-            'type' => 'required|in:regular,sweetbox',
-            'is_available' => 'boolean'
-        ]);
-    
+        $this->validateSeat($request);
+
         $seatData = $request->only('theater_id', 'seat_number', 'type', 'is_available');
         Seat::create($seatData);
     
@@ -69,12 +62,7 @@ class AdminSeatController extends Controller
 
     public function update(Request $request, Seat $seat)
     {
-        $request->validate([
-            'theater_id' => 'required|exists:theaters,id',
-            'seat_number' => 'required|string|max:255',
-            'type' => 'required|in:regular,sweetbox',
-            'is_available' => 'boolean'
-        ]);
+        $this->validateSeat($request);
 
         $seat->update($request->all());
         return redirect()->route('admin.seats.index')->with('success', 'Seat updated successfully.');
@@ -84,5 +72,15 @@ class AdminSeatController extends Controller
     {
         $seat->delete();
         return redirect()->route('admin.seats.index')->with('success', 'Seat deleted successfully.');
+    }
+
+    private function validateSeat(Request $request)
+    {
+        $request->validate([
+            'theater_id' => 'required|exists:theaters,id',
+            'seat_number' => 'required|string|max:255',
+            'type' => 'required|in:regular,sweetbox',
+            'is_available' => 'boolean'
+        ]);
     }
 }

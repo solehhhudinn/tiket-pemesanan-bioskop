@@ -8,10 +8,10 @@
     <hr>
     <div class="row mb-3">
         <div class="col-md-4">
-            <form action="{{ route('admin.payments.index') }}" method="GET">
+            <form action="{{ route('admin.payments.index') }}" method="GET" id="perPageForm">
                 <div class="input-group">
                     <label class="input-group-text" for="per_page">{{ __('Show') }}</label>
-                    <select class="form-select" id="per_page" name="per_page" onchange="this.form.submit()">
+                    <select class="form-select" id="per_page" name="per_page" onchange="updatePerPage()">
                         <option value="5"{{ request('per_page') == 5 ? ' selected' : '' }}>5</option>
                         <option value="10"{{ request('per_page') == 10 ? ' selected' : '' }}>10</option>
                         <option value="25"{{ request('per_page') == 25 ? ' selected' : '' }}>25</option>
@@ -25,6 +25,7 @@
             <form action="{{ route('admin.payments.index') }}" method="GET">
                 <div class="input-group mb-3">
                     <input type="text" name="search" class="form-control" placeholder="Search payments" value="{{ request('search') }}">
+                    <input type="hidden" name="per_page" value="{{ request('per_page', 5) }}">
                     <button class="btn btn-outline-secondary" type="submit">{{ __('Search') }}</button>
                 </div>
             </form>
@@ -134,6 +135,16 @@
 
 @section('scripts')
 <script>
+    function updatePerPage() {
+        var form = document.getElementById('perPageForm');
+        var searchInput = document.createElement('input');
+        searchInput.type = 'hidden';
+        searchInput.name = 'search';
+        searchInput.value = '{{ request('search') }}';
+        form.appendChild(searchInput);
+        form.submit();
+    }
+    
     document.addEventListener('DOMContentLoaded', function() {
         var modals = document.querySelectorAll('.modal');
         modals.forEach(modal => {
